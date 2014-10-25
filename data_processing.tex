@@ -5,7 +5,7 @@
 
 
 %\documentclass{beamer}
-\documentclass[xcolor=table,10pt, handout]{beamer}
+\documentclass[xcolor=table,10pt,handout]{beamer}
 \usepackage{latexsym,amssymb,amsfonts,amsmath}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -72,7 +72,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%% stretching %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% from http://tex.stackexchange.com/questions/148365
+% from http://tex.stackexchange.com/questions/148365 
+% and https://gist.github.com/navarroj/7789910
 
 \let\svpar\par
 \let\svitemize\itemize
@@ -159,97 +160,151 @@
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Load/Save data}
+% \section{Load/Save data}
 
-\begin{frame}[fragile]
+% \begin{frame}[fragile]
 
-  \frametitle{File operations: Reading}
+%   \frametitle{File operations: Reading}
 
-  Opening an existing file 
+%   Opening an existing file 
 
-  \begin{minted}{python}
-    >>> f = open("test.txt","rb")
-    >>> print f
-    <open file 'test.txt', mode 'rb' at 0x...>
-  \end{minted}
-  \bigskip
-  \pause
-  Reading it:
-  \begin{minted}{python}
-    >>> f.read()
-    'hello world'
-  \end{minted}
-  \pause
-  \bigskip
-  Closing it:
-  \begin{minted}{python}
-    >>> f.close()
-    >>> print f
-    <closed file 'test.txt', mode 'rb' at 0x...>
-  \end{minted}
+%   \begin{minted}{python}
+%     >>> f = open("test.txt","rb")
+%     >>> print f
+%     <open file 'test.txt', mode 'rb' at 0x...>
+%   \end{minted}
+%   \bigskip
+%   \pause
+%   Reading it:
+%   \begin{minted}{python}
+%     >>> f.read()
+%     'hello world'
+%   \end{minted}
+%   \pause
+%   \bigskip
+%   Closing it:
+%   \begin{minted}{python}
+%     >>> f.close()
+%     >>> print f
+%     <closed file 'test.txt', mode 'rb' at 0x...>
+%   \end{minted}
 
-\end{frame}
+% \end{frame}
 
 
-\begin{frame}[fragile]
+% \begin{frame}[fragile]
 
-  \frametitle{File operations: Writing}
+%   \frametitle{File operations: Writing}
 
-  Opening a (new) file 
+%   Opening a (new) file 
 
-  \begin{minted}{python}
-    >>> f = open("new_test.txt","wb")
-    >>> print f
-    <open file 'test.txt', mode 'wb' at 0x...>
-  \end{minted}
-  \bigskip
-  \pause
-  Writing to it:
-  \begin{minted}{python}
-    >>> f.write("hello world, again")
-    >>> f.write("... and again")
-    >>> f.close()
-  \end{minted}
-  \pause
-  \bigskip
+%   \begin{minted}{python}
+%     >>> f = open("new_test.txt","wb")
+%     >>> print f
+%     <open file 'test.txt', mode 'wb' at 0x...>
+%   \end{minted}
+%   \bigskip
+%   \pause
+%   Writing to it:
+%   \begin{minted}{python}
+%     >>> f.write("hello world, again")
+%     >>> f.write("... and again")
+%     >>> f.close()
+%   \end{minted}
+%   \pause
+%   \vspace{0.65cm}
 
-\end{frame}
+%   \begin{arrowlist}
+%   \item Only after calling close() the changes appear in the file for
+%     editing elsewhere!
+%   \end{arrowlist}
 
-\begin{frame}[fragile]
+% \end{frame}
 
-  \frametitle{File operations: Appending}
+% \begin{frame}[fragile]{File operations: Appending}
 
-  Opening an existing file 
+%   Opening an existing file 
 
-  \begin{minted}{python}
-    >>> f = open("test.txt","ab")
-    >>> print f
-    <open file 'test.txt', mode 'ab' at 0x...>
-  \end{minted}
-  \bigskip
-  \pause  
+%   \begin{minted}{python}
+%     >>> f = open("test.txt","ab")
+%     >>> print f
+%     <open file 'test.txt', mode 'ab' at 0x...>
+%   \end{minted}
+%   \bigskip
+%   \pause  
 
-  Appending to it:
-  \begin{minted}{python}
-    >>> f.write("hello world, again")
-    >>> f.write("... and again")
-    >>> f.close()
-  \end{minted}
-  \pause
-  \bigskip
+%   Appending to it:
+%   \begin{minted}{python}
+%     >>> f.write("hello world, again")
+%     >>> f.write("... and again")
+%     >>> f.close()
+%   \end{minted}
+%   \pause
+%   \vspace{0.8cm}
 
-  \begin{arrowlist}
-  \item In append mode, file pointer is set to the end of the opened file.
-  \end{arrowlist}
+%   \begin{arrowlist}
+%   \item In append mode, \textbf{file pointer} is set to the end of the opened file.
+%   \end{arrowlist}
 
-\end{frame}
+% \end{frame}
 
 
 \begin{frame}[fragile]
 
   \frametitle{File operations: More about file pointers}
 
-  
+  \begin{mlinepython}
+    f = open("lines_test.txt", "wb")
+    for i in range(10):
+        f.write("this is line %d\n" %(i+1))
+    f.close()
+  \end{mlinepython}
+  \pause
+  \bigskip
+
+  Reading from the file:
+  \smallskip
+
+  \begin{minted}{python}
+    >>> f = open("lines_test.txt", "rb")
+    >>> f.readline()
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    'this is line 1 \n'
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    >>> f.readline()
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    'this is line 2 \n'
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    >>> f.read(14)
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    'this is line 3'
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    >>> f.read(2)
+  \end{minted}
+  \pause
+  \vspace{-0.299cm}
+  \begin{minted}{python}
+    ' \n'
+  \end{minted}
+
 \end{frame}
 %
 
@@ -298,25 +353,25 @@
 
 
 %%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-\frametitle{Pickle module}
-\begin{itemize}
-\item To save more complex data types - lists, dictonaries and even class objects.     
-\item Can convert any python object to string (pickling) and back(unpickling)  
-\item No cast required. 
-\end{itemize}
+% \begin{frame}[fragile]
+% \frametitle{Pickle module}
+% \begin{itemize}
+% \item To save more complex data types - lists, dictonaries and even class objects.     
+% \item Can convert any python object to string (pickling) and back(unpickling)  
+% \item No cast required. 
+% \end{itemize}
 
-\vspace{1mm}
-\begin{minted}{python}
-import pickle 
-x = numpy.arange(0,1,0.1)
-pickle.dump(x,open("example","w"))
-#####################
-getx = pickle.load(open("example","r"))\\
-pylab.plot(getx) 
-\end{minted}
+% \vspace{1mm}
+% \begin{minted}{python}
+% import pickle 
+% x = numpy.arange(0,1,0.1)
+% pickle.dump(x,open("example","w"))
+% #####################
+% getx = pickle.load(open("example","r"))\\
+% pylab.plot(getx) 
+% \end{minted}
 
-\end{frame}
+% \end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%
 
