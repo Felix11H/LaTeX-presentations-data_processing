@@ -69,6 +69,14 @@
 
 
 
+\newenvironment{mydescription}[1]                                               
+  {\begin{list}{}%
+   {\renewcommand\makelabel[1]{##1:\hfill}%
+   \settowidth\labelwidth{\makelabel{#1}}%
+   \setlength\leftmargin{\labelwidth}
+   \addtolength\leftmargin{\labelsep}}}
+  {\end{list}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%% stretching %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -249,79 +257,104 @@
 % \end{frame}
 
 
+% \begin{frame}[fragile]
+
+%   \frametitle{File operations: More about file pointers}
+
+%   \begin{mlinepython}
+%     f = open("lines_test.txt", "wb")
+%     for i in range(10):
+%         f.write("this is line %d \n" %(i+1))
+%     f.close()
+%   \end{mlinepython}
+%   \pause
+%   \bigskip
+
+%   Reading from the file:
+%   \smallskip
+
+%   \begin{minted}{python}
+%     >>> f = open("lines_test.txt", "rb")
+%     >>> f.readline()
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     'this is line 1 \n'
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     >>> f.readline()
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     'this is line 2 \n'
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     >>> f.read(14)
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     'this is line 3'
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     >>> f.read(2)
+%   \end{minted}
+%   \pause
+%   \vspace{-10pt}
+%   \begin{minted}{python}
+%     ' \n'
+%   \end{minted}
+
+% \end{frame}
+
+
 \begin{frame}[fragile]
-
   \frametitle{File operations: More about file pointers}
+  Commands:
 
-  \begin{mlinepython}
-    f = open("lines_test.txt", "wb")
-    for i in range(10):
-        f.write("this is line %d\n" %(i+1))
-    f.close()
-  \end{mlinepython}
-  \pause
-  \bigskip
-
-  Reading from the file:
-  \smallskip
-
-  \begin{minted}{python}
-    >>> f = open("lines_test.txt", "rb")
-    >>> f.readline()
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    'this is line 1 \n'
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    >>> f.readline()
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    'this is line 2 \n'
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    >>> f.read(14)
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    'this is line 3'
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    >>> f.read(2)
-  \end{minted}
-  \pause
-  \vspace{-0.299cm}
-  \begin{minted}{python}
-    ' \n'
-  \end{minted}
+  \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries
+      tell()00 }]
+    \item[tell()] 
+    \item[seek()] 
+  \end{description}
 
 \end{frame}
+
+
 %
 
 \begin{frame}[fragile]{File operations: Other Modes}
-  \stretchy
-  wb+ Opens a file for both writing and reading. Overwrites the
-  existing file if the file exists. If the file does not exist, creates
-  a new file for reading and writing.
+  %\stretchy
 
-  rb+ Opens a file for both reading and writing. The file pointer will
-  be at the beginning of the file.
+  \begin{mydescription}{wbsssssssssssss}
+    \itemsep18pt
+    \item[\textbf{wb+}] Opens a file for both writing and
+      reading. Overwrites the existing file if the file exists. If the file
+      does not exist, creates a new file for reading and writing.
+    \item[\textbf{rb+}] Opens a file for both reading and writing. The
+      file pointer will be at the beginning of the file.
+    \item[\textbf{ab+}] Opens a file for both appending and reading in binary
+      format. The file pointer is at the end of the file if the file
+      exists. The file opens in the append mode. If the file does not exist,
+      it creates a new file for reading and writing.
+  \end{mydescription}
 
-  ab+ Opens a file for both appending and reading in binary
-  format. The file pointer is at the end of the file if the file
-  exists. The file opens in the append mode. If the file does not exist,
-  it creates a new file for reading and writing.
 \end{frame}
+
+%   wb+ 
+
+%   rb+ 
+
+%   ab+ 
+% \end{frame}
 
   % Some more text to try for styling this more text
 
