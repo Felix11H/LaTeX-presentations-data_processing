@@ -251,65 +251,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{Saving Data: Python Pickle}
 
-  Use pickle to save and retrieve more complex data types - lists,
-  dictionaries and even class objects:
-
-  \bigskip\pause
-
-  \begin{mlinepython}
-    >>> import pickle 
-    >>> f = open('save_file.p', 'wb')
-    >>> ex_dict = {'hello': 'world'}
-    >>> pickle.dump(ex_dict, f)
-    >>> f.close()
-  \end{mlinepython}
-
-  \bigskip\pause
-
-  \begin{mlinepython}
-    >>> import pickle 
-    >>> f = open('save_file.p', 'rb')
-    >>> loadobj = pickle.load(f)
-    >>> print loadobj['hello']
-    world
-  \end{mlinepython}
-
-\end{frame}
-
-
-\begin{frame}[fragile]
-  \frametitle{Best practice: With Statement}
-
-
-  \begin{mlinepython}
-    import pickle 
-
-    ex_dict = {'hello': 'world'}
-
-    with open('save_file.p', 'wb') as f:
-        pickle.dump(ex_dict, f)
-  \end{mlinepython}
-
-  \bigskip \pause
-  \vspace{0.2cm}
-
-  \begin{mlinepython}
-    import pickle 
-
-    with open('save_file.p', 'rb') as f:
-        loadobj = pickle.load(f)
-
-    print loadobj['hello']
-  \end{mlinepython}
-  \vspace{0.15cm}
-  \begin{arrowlist}
-  \item Use this!
-  \end{arrowlist}
-
-\end{frame}
 
 
 %%% Local Variables: 

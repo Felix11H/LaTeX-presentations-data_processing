@@ -34,7 +34,7 @@
 
 \usepackage{transparent} % transparent graphics
 
-
+\usepackage{textcomp}
 \usepackage{subcaption}
 \graphicspath{{img/}{../}}
 
@@ -146,17 +146,24 @@
 \definecolor{tg}{rgb}{0.35,0.35,0.35}
 
 
-
-
-
 \begin{frame}[fragile]
   \frametitle{Saving Data: Python Pickle}
 
+  \onslide<1->
   Use pickle to save and retrieve more complex data types - lists,
   dictionaries and even class objects:
 
   \bigskip\pause
 
+  \onslide<2>
+  \begin{figure}
+    \centering
+    \includegraphics[width=6cm]{pickle.jpg}
+    \caption*{\scriptsize \textcopyright Dom Dada \href{http://creativecommons.org/licenses/by-nc-nd/2.0/}{CC BY-NC-ND 2.0}}
+  \end{figure}
+  
+  \vspace{-5.6cm}
+  \onslide<3->
   \begin{mlinepython}
     >>> import pickle 
     >>> f = open('save_file.p', 'wb')
@@ -165,7 +172,7 @@
     >>> f.close()
   \end{mlinepython}
 
-  \bigskip\pause
+  \bigskip\onslide<4->
 
   \begin{mlinepython}
     >>> import pickle 
@@ -208,6 +215,8 @@
   \end{arrowlist}
 
 \end{frame}
+
+
 
 
 % %%%%%%%%%%%%%%%%%%%%
