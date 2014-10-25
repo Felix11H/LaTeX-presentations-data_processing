@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{minted}
+\usepackage{hyperref}
 
 %for Introduction - Part 1 - ... Orientation
 %\useoutertheme[subsection=false, shadow]{miniframes} 
@@ -71,12 +72,20 @@
 
 \newenvironment{mydescription}[1]                                               
   {\begin{list}{}%
-   {\renewcommand\makelabel[1]{##1:\hfill}%
+   {\renewcommand\makelabel[1]{\textbf{##1}\hfill}%
    \settowidth\labelwidth{\makelabel{#1}}%
    \setlength\leftmargin{\labelwidth}
    \addtolength\leftmargin{\labelsep}}}
   {\end{list}}
 
+\usepackage[absolute,overlay]{textpos}
+\setbeamercolor{framesource}{fg=gray}
+\setbeamerfont{framesource}{size=\scriptsize}
+\newcommand{\source}[1]{\begin{textblock*}{5cm}(7.7cm,8.9cm)
+    \begin{beamercolorbox}[ht=0.5cm,right]{framesource}
+        \usebeamerfont{framesource}\usebeamercolor[fg]{framesource} {#1}
+    \end{beamercolorbox}
+\end{textblock*}}
 
 %%%%%%%%%%%%%%%%%%%%%%% stretching %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -320,11 +329,14 @@
   \frametitle{File operations: More about file pointers}
   Commands:
 
-  \begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries
-      tell()00 }]
-    \item[tell()] 
-    \item[seek()] 
-  \end{description}
+  \begin{mydescription}{wbssssssss}
+    \itemsep14pt
+    \item[tell()] Opens a file for both writing and
+      reading. Overwrites the existing file if the file exists. If the file
+      does not exist, creates a new file for reading and writing.
+    \item[seek()] Opens a file for both reading and writing. The
+      file pointer will be at the beginning of the file.
+  \end{mydescription}
 
 \end{frame}
 
@@ -334,19 +346,20 @@
 \begin{frame}[fragile]{File operations: Other Modes}
   %\stretchy
 
-  \begin{mydescription}{wbsssssssssssss}
-    \itemsep18pt
-    \item[\textbf{wb+}] Opens a file for both writing and
+  \begin{mydescription}{wbssssssss}
+    \itemsep22pt
+    \item[wb+] Opens a file for both writing and
       reading. Overwrites the existing file if the file exists. If the file
       does not exist, creates a new file for reading and writing.
-    \item[\textbf{rb+}] Opens a file for both reading and writing. The
+    \item[rb+] Opens a file for both reading and writing. The
       file pointer will be at the beginning of the file.
-    \item[\textbf{ab+}] Opens a file for both appending and reading in binary
+    \item[ab+] Opens a file for both appending and reading in binary
       format. The file pointer is at the end of the file if the file
       exists. The file opens in the append mode. If the file does not exist,
       it creates a new file for reading and writing.
   \end{mydescription}
 
+  \source{\url{tutorialspoint.com/python/python_files_io.htm}}
 \end{frame}
 
 %   wb+ 
