@@ -5,7 +5,7 @@
 
 
 %\documentclass{beamer}
-\documentclass[xcolor=table,10pt]{beamer}
+\documentclass[xcolor=table,10pt, handout]{beamer}
 \usepackage{latexsym,amssymb,amsfonts,amsmath}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -42,9 +42,13 @@
 \usetikzlibrary{arrows,shapes}
 \usepackage{color}
 
+%\usemintedstyle{friendly}
+%\usemintedstyle{autumn}
+%\usemintedstyle{manni}
+%\usemintedstyle{tango}
 
 \newminted[mlinepython]{python}{fontsize=\small, linenos,
-               		numbersep=9pt,
+               		numbersep=11pt,
                		gobble=4,
                		frame=lines,
                         bgcolor=bg,
@@ -52,9 +56,49 @@
 
 
 
+% http://tex.stackexchange.com/questions/84936/
+\usepackage[loadonly]{enumitem} % Enumitem-Beamer Incompatibility! See
+                                % http://tex.stackexchange.com/a/52299/4912
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+
 \usepackage[english]{babel}
 \usepackage[latin1]{inputenc}
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%% stretching %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% from http://tex.stackexchange.com/questions/148365
+
+\let\svpar\par
+\let\svitemize\itemize
+\let\svenditemize\enditemize
+\let\svitem\item
+\def\newpar{\def\par{\svpar\vfill}}
+\def\newitem{\def\item{\vfill\svitem}}
+\let\svcenter\center
+\let\svendcenter\endcenter
+\let\svcolumn\column
+\let\svendcolumn\endcolumn
+\newlength\columnskip
+\columnskip 0pt
+\def\newcolumn{%
+  \renewenvironment{column}[2]%
+    {\svcolumn{##1}\setlength{\parskip}{\columnskip}##2}%
+    {\svendcolumn\vspace{\columnskip}}}
+
+\newcommand\stretchy{\only<2>{%
+  \newpar\def\item{\svitem\newitem}%
+  \renewenvironment{itemize}{\svitemize}{\svenditemize\newpar\par}%
+  \renewenvironment{center}{\svcenter\newpar}{\svendcenter\newpar}%
+  \newcolumn
+}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \title {File operations, data parsing and batch files}
@@ -78,91 +122,201 @@
 
 \begin{document}
 
-\begin{frame} 
-  \titlepage
-\end{frame}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\definecolor{tg}{rgb}{0.35,0.35,0.35}
 
 
-\begin{frame} 
-  \frametitle{Outline}
-  \tableofcontents[pausesections]
-\end{frame}
+% \begin{frame} 
+%   \titlepage
+% \end{frame}
 
-%%%%%%%%%%%%% What are they? %%%%%%%%%%% 
 
-\section{Introduction}
-\begin{frame}
-\frametitle{Where do they fit?}
-\begin{columns}
-\column{2.0in}
-\begin{itemize}
-\item Data has to be read/written from/to files before/after processing    
-\item Raw data needs some pre-processing.  
-\item Batch files are meta scripts that automate these tasks  
-\end{itemize}
-\column{2.0in}
-\begin{figure}
-    \centering
-    \includegraphics[width=2.0in]{Fits.eps}
-\end{figure}
-\end{columns}
-\end{frame}
+% \begin{frame} 
+%   \frametitle{Outline}
+%   \tableofcontents[pausesections]
+% \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%% What are they? %%%%%%%%%%% 
+
+% \section{Introduction}
+% \begin{frame}
+% \frametitle{Where do they fit?}
+% \begin{columns}
+% \column{2.0in}
+% \begin{itemize}
+% \item Data has to be read/written from/to files before/after processing    
+% \item Raw data needs some pre-processing.  
+% \item Batch files are meta scripts that automate these tasks  
+% \end{itemize}
+% \column{2.0in}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=2.0in]{Fits.eps}
+% \end{figure}
+% \end{columns}
+% \end{frame}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Load/Save data}
 
+\begin{frame}[fragile]
+
+  \frametitle{File operations: Reading}
+
+  Opening an existing file 
+
+  \begin{minted}{python}
+    >>> f = open("test.txt","rb")
+    >>> print f
+    <open file 'test.txt', mode 'rb' at 0x...>
+  \end{minted}
+  \bigskip
+  \pause
+  Reading it:
+  \begin{minted}{python}
+    >>> f.read()
+    'hello world'
+  \end{minted}
+  \pause
+  \bigskip
+  Closing it:
+  \begin{minted}{python}
+    >>> f.close()
+    >>> print f
+    <closed file 'test.txt', mode 'rb' at 0x...>
+  \end{minted}
+
+\end{frame}
 
 
 \begin{frame}[fragile]
-  \frametitle{File operations}
 
-  \begin{mlinepython}
-    f = open("test.txt","r") # open test.txt in read mode
-    x = f.readline() # Read one line from the file. 
-    print x # This prints '21\\n'
-    y = int(x)*2 # Cast x into int and multiply by 2
-    f1 = open("test1.txt","w") # Open test1.txt in write mode
-    f1.write(str(y)) # Note f1.write(y) will give an error
-    f1.close()
-    f.close()
-  \end{mlinepython}
+  \frametitle{File operations: Writing}
 
-  Alternatively,
+  Opening a (new) file 
 
   \begin{minted}{python}
-    f = open("test.txt","ra+") # open test.txt in read/append mode
-    x = f.read() # Read the whole file at once.
-    print x # This prints '42\\n'
-    y = int(x)*2 # Cast x into int and multiply by 2
-    f.write(str(y)) # Append the result to existing file 
-    f.close()
+    >>> f = open("new_test.txt","wb")
+    >>> print f
+    <open file 'test.txt', mode 'wb' at 0x...>
   \end{minted}
+  \bigskip
+  \pause
+  Writing to it:
+  \begin{minted}{python}
+    >>> f.write("hello world, again")
+    >>> f.write("... and again")
+    >>> f.close()
+  \end{minted}
+  \pause
+  \bigskip
 
-  Note: The data read from the file should be casted to int/float for arithmetic operations
 \end{frame}
 
-% %%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[fragile]
-% \frametitle{Pickle module}
-% \begin{itemize}
-% \item To save more complex data types - lists, dictonaries and even class objects.     
-% \item Can convert any python object to string (pickling) and back(unpickling)  
-% \item No cast required. 
-% \end{itemize}
-% \tiny
-% \vspace{1mm}
-% \begin{minted}{python}
-% import pickle 
-% x = numpy.arange(0,1,0.1)
-% pickle.dump(x,open("example","w"))
-% #####################
-% getx = pickle.load(open("example","r"))\\
-% pylab.plot(getx) 
-% \end{minted}
+\begin{frame}[fragile]
 
-% \end{frame}
+  \frametitle{File operations: Appending}
+
+  Opening an existing file 
+
+  \begin{minted}{python}
+    >>> f = open("test.txt","ab")
+    >>> print f
+    <open file 'test.txt', mode 'ab' at 0x...>
+  \end{minted}
+  \bigskip
+  \pause  
+
+  Appending to it:
+  \begin{minted}{python}
+    >>> f.write("hello world, again")
+    >>> f.write("... and again")
+    >>> f.close()
+  \end{minted}
+  \pause
+  \bigskip
+
+  \begin{arrowlist}
+  \item In append mode, file pointer is set to the end of the opened file.
+  \end{arrowlist}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+
+  \frametitle{File operations: More about file pointers}
+
+  
+\end{frame}
+%
+
+\begin{frame}[fragile]{File operations: Other Modes}
+  \stretchy
+  wb+ Opens a file for both writing and reading. Overwrites the
+  existing file if the file exists. If the file does not exist, creates
+  a new file for reading and writing.
+
+  rb+ Opens a file for both reading and writing. The file pointer will
+  be at the beginning of the file.
+
+  ab+ Opens a file for both appending and reading in binary
+  format. The file pointer is at the end of the file if the file
+  exists. The file opens in the append mode. If the file does not exist,
+  it creates a new file for reading and writing.
+\end{frame}
+
+  % Some more text to try for styling this more text
+
+  % Note: The data read from the file should be casted to int/float for arithmetic operations
+
+  % \begin{mlinepython}
+  %   f = open("test.txt","r") # open test.txt in read mode
+  %   x = f.readline() # Read one line from the file. 
+  %   print x # This prints '21\\n'
+  %   y = int(x)*2 # Cast x into int and multiply by 2
+  %   f1 = open("test1.txt","w") # Open test1.txt in write mode
+  %   f1.write(str(y)) # Note f1.write(y) will give an error
+  %   f1.close()
+  %   f.close()
+  % \end{mlinepython}
+
+  % Alternatively,
+
+  % \begin{minted}{python}
+  %   f = open("test.txt","ra+") # open test.txt in read/append mode
+  %   x = f.read() # Read the whole file at once.
+  %   print x # This prints '42\\n'
+  %   y = int(x)*2 # Cast x into int and multiply by 2
+  %   f.write(str(y)) # Append the result to existing file 
+  %   f.close()
+  % \end{minted}
+
+  % Note: The data read from the file should be casted to int/float for arithmetic operations
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+\frametitle{Pickle module}
+\begin{itemize}
+\item To save more complex data types - lists, dictonaries and even class objects.     
+\item Can convert any python object to string (pickling) and back(unpickling)  
+\item No cast required. 
+\end{itemize}
+
+\vspace{1mm}
+\begin{minted}{python}
+import pickle 
+x = numpy.arange(0,1,0.1)
+pickle.dump(x,open("example","w"))
+#####################
+getx = pickle.load(open("example","r"))\\
+pylab.plot(getx) 
+\end{minted}
+
+\end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%
 
