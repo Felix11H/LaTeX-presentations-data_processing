@@ -33,6 +33,63 @@
   %
 \end{frame}
 
+
+\begin{frame}[fragile]
+  \frametitle{Regular expressions - A case study}
+  Formatting street names
+  \vspace{0.4cm}
+  \begin{minted}{python}
+    >>> s = '100 NORTH MAIN ROAD'
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python} 
+    >>> s.replace('ROAD', 'RD.')
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python} 
+    '100 NORTH MAIN RD.'
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python} 
+    >>> s = '100 NORTH BROAD ROAD'
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python}
+    >>> s.replace('ROAD', 'RD.') 
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python}
+    '100 NORTH BRD. RD.'
+  \end{minted}
+  \pause
+  \vspace{-10pt}
+  \begin{minted}{python} 
+    >>> s[:-4] + s[-4:].replace('ROAD', 'RD.') 
+    '100 NORTH BROAD RD.'
+  \end{minted}
+
+  \vspace{0.3cm}
+  Better use regular expressions!
+
+  \begin{minted}{python}
+    >>> import re 
+    >>> re.sub(r'ROAD$', 'RD.', s) 
+    '100 NORTH BROAD RD.'
+  \end{minted}
+
+  \source{example from Dive Into Python 3 \\ \textcopyright Mark Pilgrim 
+    \href{http://creativecommons.org/licenses/by-sa/3.0/}{CC BY-SA 3.0}}
+
+\end{frame}
+
+
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t
