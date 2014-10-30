@@ -1,11 +1,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Felix Hoffmann, October 2014
 % adapted from Jyotika Bahuguna October 2012
+%
+% Here information about license. For now:
+% CC BY-NC 2.5 
+% http://creativecommons.org/licenses/by-nc/2.5/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %\documentclass{beamer}
-\documentclass[xcolor=table,10pt]{beamer}
+\documentclass[xcolor=table,10pt,handout]{beamer}
 \usepackage{latexsym,amssymb,amsfonts,amsmath}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -210,9 +214,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-
-  \frametitle{File operations: Writing}
+\begin{frame}[fragile]{File operations: Writing}
 
   Opening a (new) file 
 
@@ -267,9 +269,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-
-  \frametitle{File operations: More about file pointers}
+\begin{frame}[fragile]{File operations: More about file pointers}
 
   \begin{mlinepython}
     f = open("lines_test.txt", "wb")
@@ -326,8 +326,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{File operations: More about file pointers}
+\begin{frame}[fragile]{File operations: More about file pointers}
 
   \begin{mydescription}{wbsssssssssssssssssssssssss}
     \itemsep4pt
@@ -359,8 +358,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{File operations: More about file pointers}
+\begin{frame}[fragile]{File operations: More about file pointers}
   \begin{mlinepython}
     >>> f.seek(5)
     >>> f.tell()
@@ -398,8 +396,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{Saving Data: Python Pickle}
+\begin{frame}[fragile]{Saving Data: Python Pickle}
 
   \onslide<1->
   Use pickle to save and retrieve more complex data types - lists,
@@ -407,7 +404,7 @@
 
   \bigskip\pause
 
-  \onslide<2>
+  \onslide<2|handout:0>
   \begin{figure}
     \centering
     \includegraphics[width=6cm]{pickle.jpg}
@@ -437,8 +434,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{Best practice: With Statement}
+\begin{frame}[fragile]{Best practice: With Statement}
 
 
   \begin{mlinepython}
@@ -518,8 +514,7 @@
 \end{frame}
 
 
-\begin{frame}[fragile]
-  \frametitle{Regular expressions - A case study}
+\begin{frame}[fragile]{Regular expressions - A case study}
   Formatting street names
   \vspace{0.4cm}
   \begin{minted}{python}
