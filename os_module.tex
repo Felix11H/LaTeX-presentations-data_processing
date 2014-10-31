@@ -1,0 +1,38 @@
+
+\section{os module}
+
+\begin{frame}[fragile]{os module}
+
+  Provides a way of using os dependent functionality:
+
+  \vspace{0.3cm}
+  \begin{adjustwidth}{0.6cm}{0pt}
+    \begin{mydescription}{wbbbaaaassss}
+      \itemsep4pt
+      \item[os.mkdir()]  Creates a directory (like mkdir)
+      \item[os.chmod()]  Change the permissions (like chmod)
+      \item[os.rename()]  Rename the old file name with the new file name.	
+      \item[os.listdir()] List the contents of the directory
+      \item[os.getcwd()] Get the current working directory path
+      \item[os.path] Submodule for useful functions on pathnames
+    \end{mydescription}
+  \end{adjustwidth}
+
+  \vspace{0.8cm}
+  \pause
+  For example, list all files in the current directory:
+
+  \begin{minted}{python}
+    >>> from os import listdir   
+    >>>
+    >>> for f in listdir("."):
+    >>>     print f
+  \end{minted}
+
+
+\end{frame}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "data_processing"
+%%% End: 
