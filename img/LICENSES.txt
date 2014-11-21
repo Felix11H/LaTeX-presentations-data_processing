@@ -1,0 +1,4 @@
+xkcd208.png : © Randall Munroe xkcd.com CC BY-NC 2.5
+pickle.jpg : © Dom Dada CC BY-NC-ND 2.0
+
+
